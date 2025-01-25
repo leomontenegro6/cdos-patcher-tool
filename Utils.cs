@@ -15,39 +15,52 @@ public class Utils
         return BitConverter.ToString(checksum).Replace("-", "").ToLower();
     }
 
-    private static void RunCommand(string command)
+    private static bool RunCommand(string command)
     {
-        Process process = new Process();
-        ProcessStartInfo processInfo = new ProcessStartInfo("cmd.exe", "/c " + command);
-        process.StartInfo = processInfo;
-        process.StartInfo.UseShellExecute = false;
-        process.StartInfo.CreateNoWindow = true;
-        process.Start();
-        process.WaitForExit();
+        try
+        {
+            Process process = new Process();
+            ProcessStartInfo processInfo = new ProcessStartInfo("cmd.exe", "/c " + command);
+            process.StartInfo = processInfo;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.CreateNoWindow = true;
+            process.Start();
+            process.WaitForExit();
+
+            return process.ExitCode == 0;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 
-    public static void ApplyTranslationPatch(string filePath)
+    public static void DeleteRomFileIfExists()
     {
         if (File.Exists("Nova_Rom\\cdos_ptbr.nds"))
         {
             File.Delete("Nova_Rom\\cdos_ptbr.nds");
         }
-
-        RunCommand("Tools\\xdelta.exe -d -s " + filePath + " Patches\\cdos_1.0.xdelta Nova_Rom\\cdos_ptbr.nds");
     }
 
-    public static void ApplyDawnDignityPortraits()
+    public static bool ApplyTranslationPatch(string filePath)
     {
-        RunCommand("Tools\\armips.exe Patches\\DawnDignity\\dos_insert_dawn_dignity_avatars.asm");
+        DeleteRomFileIfExists();
+        return RunCommand("Tools\\xdelta.exe -d -s " + filePath + " Patches\\cdos_ptbr.xdelta Nova_Rom\\cdos_ptbr.nds");
     }
 
-    public static void ApplyPatchDisableMagicSeals()
+    public static bool ApplyDawnDignityPortraits()
     {
-        RunCommand("Tools\\flips.exe --apply Patches\\DisableMagicSeals\\dos_no_required_touch_screen_v1.1.ips Nova_Rom\\cdos_ptbr.nds");
+        return RunCommand("Tools\\armips.exe Patches\\DawnDignity\\dos_insert_dawn_dignity_avatars.asm");
     }
 
-    public static void ApplyPatchEnableLuckSoulFixes()
+    public static bool ApplyPatchDisableMagicSeals()
     {
-        RunCommand("Tools\\flips.exe --apply Patches\\EnableLuckSoulFixes\\dos_fixed_luck.ips Nova_Rom\\cdos_ptbr.nds");
+        return RunCommand("Tools\\flips.exe --apply Patches\\DisableMagicSeals\\dos_no_required_touch_screen_v1.1.ips Nova_Rom\\cdos_ptbr.nds");
+    }
+
+    public static bool ApplyPatchEnableLuckSoulFixes()
+    {
+        return RunCommand("Tools\\flips.exe --apply Patches\\EnableLuckSoulFixes\\dos_fixed_luck.ips Nova_Rom\\cdos_ptbr.nds");
     }
 }

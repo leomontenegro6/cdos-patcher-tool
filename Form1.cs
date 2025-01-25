@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Net;
 using System.Windows.Forms;
 using DarkModeForms;
 
@@ -27,12 +26,19 @@ namespace CDOSPatcher
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (checkboxEnableDawnDignity.Checked)
+            {
+                coverImage.BackgroundImage = Properties.Resources.cdos_cover_dod;
+            }
+            else
+            {
+                coverImage.BackgroundImage = Properties.Resources.cdos_cover;
+            }
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void label_disable_magic_seals_Click(object sender, EventArgs e)
@@ -47,7 +53,8 @@ namespace CDOSPatcher
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (dialogOpenRom.ShowDialog() == DialogResult.OK) {
+            if (dialogOpenRom.ShowDialog() == DialogResult.OK)
+            {
                 maskedTextBox1.Text = dialogOpenRom.FileName;
             }
         }
@@ -59,7 +66,7 @@ namespace CDOSPatcher
 
         private void buttonGenerateTranslatedRom_Click(object sender, EventArgs e)
         {
-            // Checando se a ROM foi fornecida.
+            // Checking if the ROM file is provided.
             if (dialogOpenRom.FileName == "")
             {
                 Messenger.MessageBox("ROM não fornecida.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -68,7 +75,7 @@ namespace CDOSPatcher
 
             textStatusIndicator.Text = "";
 
-            // Checando se a ROM fornecida é válida.
+            // Checking if the provided ROM file's checksum is valid.
             string checksumHex = Utils.CalculateFileCrc32(dialogOpenRom.FileName);
             textStatusIndicator.Text += "Validando checksum da rom fornecida... ";
             if (checksumHex != "135737f6")
@@ -79,9 +86,15 @@ namespace CDOSPatcher
             }
             textStatusIndicator.Text += "OK.\r\n";
 
-            // Iniciando processo de patching.
+            // Starting patching process.
             textStatusIndicator.Text += "Aplicando patch xdelta da tradução original... ";
-            Utils.ApplyTranslationPatch(dialogOpenRom.FileName);
+            bool result = Utils.ApplyTranslationPatch(dialogOpenRom.FileName);
+            if (!result)
+            {
+                textStatusIndicator.Text += "Falha!\r\n";
+                Messenger.MessageBox("Erro ao aplicar o patch xdelta da tradução.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             textStatusIndicator.Text += "OK.\r\n";
 
             if (checkboxEnableDawnDignity.Checked || checkboxDisableMagicSeals.Checked || checkboxEnableLuckSoulFixes.Checked)
@@ -89,21 +102,42 @@ namespace CDOSPatcher
                 if (checkboxEnableDawnDignity.Checked)
                 {
                     textStatusIndicator.Text += "Aplicando patch armips de retratos do Dawn of Dignity... ";
-                    Utils.ApplyDawnDignityPortraits();
+                    result = Utils.ApplyDawnDignityPortraits();
+                    if (!result)
+                    {
+                        textStatusIndicator.Text += "Falha!\r\n";
+                        Messenger.MessageBox("Erro ao aplicar o patch armips do Dawn of Dignity.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Utils.DeleteRomFileIfExists();
+                        return;
+                    }
                     textStatusIndicator.Text += "OK.\r\n";
                 }
 
                 if (checkboxDisableMagicSeals.Checked)
                 {
                     textStatusIndicator.Text += "Aplicando patch IPS para desativar Selos Mágicos... ";
-                    Utils.ApplyPatchDisableMagicSeals();
+                    result = Utils.ApplyPatchDisableMagicSeals();
+                    if (!result)
+                    {
+                        textStatusIndicator.Text += "Falha!\r\n";
+                        Messenger.MessageBox("Erro ao aplicar o patch IPS de desativação dos Selos Mágicos.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Utils.DeleteRomFileIfExists();
+                        return;
+                    }
                     textStatusIndicator.Text += "OK.\r\n";
                 }
 
                 if (checkboxEnableLuckSoulFixes.Checked)
                 {
                     textStatusIndicator.Text += "Aplicando patch IPS para ativar os fixes de sorte nula... ";
-                    Utils.ApplyPatchEnableLuckSoulFixes();
+                    result = Utils.ApplyPatchEnableLuckSoulFixes();
+                    if (!result)
+                    {
+                        textStatusIndicator.Text += "Falha!\r\n";
+                        Messenger.MessageBox("Erro ao aplicar o patch IPS de ativação de fixes de sorte nula.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Utils.DeleteRomFileIfExists();
+                        return;
+                    }
                     textStatusIndicator.Text += "OK.\r\n";
                 }
             }
