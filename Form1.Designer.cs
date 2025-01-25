@@ -92,12 +92,12 @@
             // labelEnableDawnDignity
             // 
             this.labelEnableDawnDignity.AutoSize = true;
-            this.labelEnableDawnDignity.Font = new System.Drawing.Font("Arial Narrow", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelEnableDawnDignity.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelEnableDawnDignity.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.labelEnableDawnDignity.Location = new System.Drawing.Point(319, 65);
             this.labelEnableDawnDignity.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelEnableDawnDignity.Name = "labelEnableDawnDignity";
-            this.labelEnableDawnDignity.Size = new System.Drawing.Size(204, 32);
+            this.labelEnableDawnDignity.Size = new System.Drawing.Size(231, 28);
             this.labelEnableDawnDignity.TabIndex = 5;
             this.labelEnableDawnDignity.Text = "Troca os avatares padrões de anime\r\npor avatares góticos no estilo da Ayami Kojim" +
     "a";
@@ -106,29 +106,29 @@
             // labelDisableMagicSeals
             // 
             this.labelDisableMagicSeals.AutoSize = true;
-            this.labelDisableMagicSeals.Font = new System.Drawing.Font("Arial Narrow", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDisableMagicSeals.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelDisableMagicSeals.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.labelDisableMagicSeals.Location = new System.Drawing.Point(319, 127);
             this.labelDisableMagicSeals.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelDisableMagicSeals.Name = "labelDisableMagicSeals";
-            this.labelDisableMagicSeals.Size = new System.Drawing.Size(251, 48);
+            this.labelDisableMagicSeals.Size = new System.Drawing.Size(250, 56);
             this.labelDisableMagicSeals.TabIndex = 6;
-            this.labelDisableMagicSeals.Text = "Permite derrotar bosses sem precisar selá-los. Ideal\r\npara jogadores sem touch-sc" +
-    "reen, jogadores de\r\nportáteis chineses, ou só pra quem desgosta da mecânica.";
+            this.labelDisableMagicSeals.Text = "Permite derrotar bosses sem precisar selá-los.\r\nIdeal para jogadores sem touch-sc" +
+    "reen, jogadores\r\nde portáteis chineses, ou só pra quem desgosta\r\nda mecânica.";
             this.labelDisableMagicSeals.Click += new System.EventHandler(this.label_disable_magic_seals_Click);
             // 
             // labelEnableLuckSoulFixes
             // 
             this.labelEnableLuckSoulFixes.AutoSize = true;
-            this.labelEnableLuckSoulFixes.Font = new System.Drawing.Font("Arial Narrow", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelEnableLuckSoulFixes.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelEnableLuckSoulFixes.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.labelEnableLuckSoulFixes.Location = new System.Drawing.Point(319, 206);
             this.labelEnableLuckSoulFixes.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelEnableLuckSoulFixes.Name = "labelEnableLuckSoulFixes";
-            this.labelEnableLuckSoulFixes.Size = new System.Drawing.Size(242, 48);
+            this.labelEnableLuckSoulFixes.Size = new System.Drawing.Size(257, 42);
             this.labelEnableLuckSoulFixes.TabIndex = 7;
-            this.labelEnableLuckSoulFixes.Text = "Altera a lógica padrão de sorte, para fazer com que sorte\r\nelevada de fato faça d" +
-    "iferença significativa ao pegar\r\nalmas de monstros.";
+            this.labelEnableLuckSoulFixes.Text = "Altera a lógica padrão de sorte, para fazer com que\r\nsorte elevada de fato faça d" +
+    "iferença significativa\r\nao pegar almas de monstros.";
             this.labelEnableLuckSoulFixes.Click += new System.EventHandler(this.label_enable_luck_soul_fixes_Click);
             // 
             // maskedTextBox1
