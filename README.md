@@ -1,6 +1,6 @@
 # cdos-patcher-tool
 
-[alt text](cdos_patcher_tool.gif)
+![alt text](cdos_patcher_tool.gif)
 
 Essa é uma ferramenta patcher customizada da [tradução do Castlevania Dawn of Sorrow](https://github.com/leomontenegro6/cdos-traducao-ptbr), para português brasileiro.
 
