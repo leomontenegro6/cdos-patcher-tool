@@ -5,6 +5,7 @@ using System.Diagnostics;
 
 public class Utils
 {
+    private static readonly string logFilePath = "log.txt";
     public static string CalculateFileCrc32(string filePath)
     {
         byte[] fileBytes = File.ReadAllBytes(filePath);
@@ -13,6 +14,14 @@ public class Utils
         var checksum = crc32.GetCurrentHash();
         Array.Reverse(checksum);
         return BitConverter.ToString(checksum).Replace("-", "").ToLower();
+    }
+
+    private static void LogMessage(string message)
+    {
+        using (StreamWriter writer = new StreamWriter(logFilePath, true))
+        {
+            writer.WriteLine($"{DateTime.Now}: {message}");
+        }
     }
 
     private static bool RunCommand(string command)
@@ -24,13 +33,25 @@ public class Utils
             process.StartInfo = processInfo;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+
             process.Start();
+
+            string output = process.StandardOutput.ReadToEnd();
+            string error = process.StandardError.ReadToEnd();
+
             process.WaitForExit();
+
+            LogMessage($"Command: {command}");
+            LogMessage($"Output: {output}");
+            LogMessage($"Error: {error}");
 
             return process.ExitCode == 0;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            LogMessage($"Exception: {ex.Message}");
             return false;
         }
     }
@@ -46,7 +67,7 @@ public class Utils
     public static bool ApplyTranslationPatch(string filePath)
     {
         DeleteRomFileIfExists();
-        return RunCommand("Tools\\xdelta.exe -d -s " + filePath + " Patches\\cdos_ptbr.xdelta Nova_Rom\\cdos_ptbr.nds");
+        return RunCommand("Tools\\xdelta.exe -d -s \"" + filePath + "\" Patches\\cdos_ptbr.xdelta Nova_Rom\\cdos_ptbr.nds");
     }
 
     public static bool ApplyDawnDignityPortraits()
